@@ -7,13 +7,13 @@ Toolmaster: Workshop Simulator is a console-based application designed to demons
 
 👥 Development Team:
 
-    Dereck Dimaano
+    Dereck Dimaano (Dereck-1123)
 
-    Franz Villanueva
+    Franz Villanueva (FrnzV)
 
-    Rocklyn Mary Lopez
+    Rocklyn Mary Lopez (rocks294)
 
-    Ron Emmanuel Guial
+    Ron Emmanuel Guial (macca_roni_)
 
                                                                    
 
