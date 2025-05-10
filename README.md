@@ -13,7 +13,7 @@ Toolmaster: Workshop Simulator is a console-based application designed to demons
 
     Rocklyn Mary Lopez (rocks294)
 
-    Ron Emmanuel Guial (macca_roni_)
+    Ron Emmanuel Guial (Maca_roni)
 
                                                                    
 
