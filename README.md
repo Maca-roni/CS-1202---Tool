@@ -40,6 +40,9 @@ Toolmaster serves as a comprehensive workshop simulator where users can explore 
     - Encapsulation: Tool attributes are managed internally, with controlled access through methods.
     - Abstraction: Essential tool behaviors are defined as abstract methods, ensuring consistency across tools.
 
+Class Diagram:
+
+
 ▶️ How to Get Started:
 
 Clone or download the repository.
