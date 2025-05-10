@@ -36,6 +36,7 @@ class Tool(ABC):
 
 
 
+
 """Hammer class"""
 class Hammer(Tool):
     def __init__(self, name: str, material: str, weight: float, head_type: str, claw_type: str, handle_length: int):
@@ -289,6 +290,236 @@ class Saw(Tool):
 
 
 
+
+
+
+"""Screwdriver Class"""
+class Screwdriver(Tool):
+    def __init__(self, name: str, material: str, weight: float, tip_type: str, length: float, is_magnetized: bool):
+        super().__init__(name, material, weight)
+        self.tip_type = tip_type
+        self.length = length
+        self.is_magnetized = is_magnetized
+        self.available_tips = ["Flathead", "Phillips", "Torx", "Hex", "Square"]
+
+    def use(self) -> None:
+        if not self.check_durability():
+            print("The screwdriver is too damaged to use. Please repair it.")
+            return
+
+        while True:
+            clear_screen()
+            print(f"Using the {self.weight}kg {self.name} with {self.tip_type} tip...")
+            print("\nScrewdriver Use Menu")
+            print("====================")
+            print("1. Tighten/Loosen Screw")
+            print("2. Change Tip")
+            print("3. Magnetize/Unmagnetize")
+            print("4. Back")
+
+            choice = input("\nEnter your choice (1-4): ")
+
+            if choice == "1":
+                self.tighten_loosen()
+            elif choice == "2":
+                self.change_tip()
+            elif choice == "3":
+                self.toggle_magnetization()
+            elif choice == "4":
+                break
+            else:
+                print("Invalid choice. Please select a number from 1 to 4.")
+                input("\nPress Enter to return to the menu...")
+
+    def tighten_loosen(self) -> None:
+        if not self.check_durability():
+            print("The screwdriver is too damaged to use. Please repair it.")
+            return
+
+        print(f"Tightening/Loosening with the {self.tip_type} tip...")
+        for i in range(5, 0, -1):
+            print(f"Tightening/Loosening... {i} seconds remaining with {self.tip_type} tip.")
+            time.sleep(1)
+
+        print(f"Action completed using the {self.tip_type} tip!\n")
+        input("Press Enter to continue...")
+        self.degrade()
+
+    def change_tip(self) -> None:
+        print("Available tips:")
+        for idx, tip in enumerate(self.available_tips, start=1):
+            print(f"{idx}. {tip} Tip")
+
+        choice = input("Select a tip (number): ")
+        if choice.isdigit() and 1 <= int(choice) <= len(self.available_tips):
+            self.tip_type = self.available_tips[int(choice) - 1]
+            print(f"Tip changed to {self.tip_type} Tip.")
+        else:
+            print("Invalid selection.")
+
+        input("Press Enter to continue...")
+
+    def toggle_magnetization(self) -> None:
+        self.is_magnetized = not self.is_magnetized
+        state = "Magnetized" if self.is_magnetized else "Unmagnetized"
+        print(f"The screwdriver is now {state}.")
+        input("Press Enter to continue...")
+
+    def repair(self) -> None:
+        self.durability = 100
+        print(f"Repaired the {self.name} screwdriver. Durability is now full.")
+
+
+
+
+
+
+
+"""Measuring Tape Class"""
+class MeasuringTape(Tool):
+    def __init__(self, name: str, material: str, weight: float, length: float):
+        super().__init__(name, material, weight)
+        self.length = length
+        self.current_length = 0  # Default is the tape is retracted
+
+    def use(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to use. Please repair it.")
+            return
+
+        while True:
+            clear_screen()
+            print(f"Using the {self.name} made of {self.material}, weighing {self.weight}kg, with a {self.length}m length.")
+            print("\nMeasuring Tape Use Menu")
+            print("========================")
+            print("1. Measure Wood Length")
+            print("2. Mark Intervals")
+            print("3. Back")
+
+            choice = input("\nEnter your choice (1-3): ")
+
+            if choice == "1":
+                self.measure_wood_length()
+            elif choice == "2":
+                self.mark_intervals()
+            elif choice == "3":
+                break
+            else:
+                print("Invalid choice. Please select a number from 1 to 3.")
+                input("\nPress Enter to return to the menu...")
+
+    def measure_wood_length(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to measure. Please repair it.")
+            return
+
+        wood_length = random.uniform(1, self.length)  # Random length between 1m and the full tape length
+        print(f"Measuring wood... The length is {wood_length:.2f} meters.")
+        input("Press Enter to continue...")
+        self.degrade()
+
+    def mark_intervals(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to mark intervals. Please repair it.")
+            return
+
+        interval = float(input("Enter the interval length to mark (in meters): "))
+        if 0 < interval <= self.length:
+            print(f"Marking intervals every {interval} meters.")
+            for i in range(1, int(self.length // interval) + 1):
+                print(f"Mark {i}: {i * interval} meters")
+            print("Intervals marked.")
+        else:
+            print("Invalid interval length. Please enter a value within the tape's length.")
+
+        input("Press Enter to continue...")
+        self.degrade()
+
+    def repair(self) -> None:
+        self.durability = 100
+        print(f"Repaired the {self.name} measuring tape. Durability is now full.")
+        
+"""Wrench Class"""
+class Wrench(Tool):
+    def __init__(self, name: str, material: str, weight: float, size: float, is_ratcheting: bool):
+        super().__init__(name, material, weight)
+        self.size = size  # in mm
+        self.is_ratcheting = is_ratcheting
+        self.available_sizes = [8, 10, 12, 14, 17, 19, 22, 24]
+
+    def use(self) -> None:
+        if not self.check_durability():
+            print("The wrench is too damaged to use. Please repair it.")
+            return
+
+        while True:
+            clear_screen()
+            print(f"Using the {self.name} ({self.size}mm), Material: {self.material}, Weight: {self.weight}kg")
+            print("\nWrench Use Menu")
+            print("==================")
+            print("1. Tighten Bolt")
+            print("2. Loosen Bolt")
+            print("3. Change Size")
+            print("4. Toggle Ratcheting Mode")
+            print("5. Back")
+
+            choice = input("\nEnter your choice (1-5): ")
+
+            if choice == "1":
+                self.tighten_bolt()
+            elif choice == "2":
+                self.loosen_bolt()
+            elif choice == "3":
+                self.change_size()
+            elif choice == "4":
+                self.toggle_ratcheting()
+            elif choice == "5":
+                break
+            else:
+                print("Invalid choice.")
+                input("Press Enter to continue...")
+
+    def tighten_bolt(self) -> None:
+        print(f"Tightening a bolt with a {self.size}mm wrench.")
+        time.sleep(2)
+        print("Bolt tightened.")
+        self.degrade()
+        input("Press Enter to continue...")
+
+    def loosen_bolt(self) -> None:
+        print(f"Loosening a bolt with a {self.size}mm wrench.")
+        time.sleep(2)
+        print("Bolt loosened.")
+        self.degrade()
+        input("Press Enter to continue...")
+
+    def change_size(self) -> None:
+        print("Available sizes:")
+        for idx, s in enumerate(self.available_sizes, start=1):
+            print(f"{idx}. {s}mm")
+
+        choice = input("Select a size (number): ")
+        if choice.isdigit() and 1 <= int(choice) <= len(self.available_sizes):
+            self.size = self.available_sizes[int(choice) - 1]
+            print(f"Wrench size changed to {self.size}mm.")
+        else:
+            print("Invalid selection.")
+
+        input("Press Enter to continue...")
+
+    def toggle_ratcheting(self) -> None:
+        self.is_ratcheting = not self.is_ratcheting
+        mode = "Ratcheting" if self.is_ratcheting else "Non-Ratcheting"
+        print(f"The wrench is now set to {mode} mode.")
+        input("Press Enter to continue...")
+
+    def repair(self) -> None:
+        self.durability = 100
+        print(f"Repaired the {self.name} wrench. Durability is now full.")
+
+ 
+
+
 """Main menu"""
 def tool_menu(tool: Tool):
     while True:
@@ -316,11 +547,18 @@ if __name__ == "__main__":
     hammer = Hammer("Hammer", "Iron", 2.5, "Flat", "Curved", 16)
     drill = Drill("Drill", "Steel", 1.5, 500.0, True, 1500)
     saw = Saw("Saw", "Steel", 3.0, "Wood", 18, True)  
+    screwdriver = Screwdriver("Screwdriver", "Steel", 0.3, "Phillips", 6, False)
+    measuring_tape = MeasuringTape("Measuring Tape", "Plastic", 0.5, 25)  
+    wrench = Wrench("Wrench", "Chrome-Vanadium", 0.8, 17, True)
+
 
     tools = {
         "1": hammer,
         "2": drill,
-        "3": saw, 
+        "3": saw,
+        "4": screwdriver, 
+        "5": measuring_tape,
+        "6": wrench
     }
 
     while True:
@@ -336,6 +574,230 @@ if __name__ == "__main__":
         if choice in tools:
             tool_menu(tools[choice])
         elif choice == "0":
+            print("Goodbye!")
+            break
+        else:
+            print("Invalid option.")
+            input("Press Enter to try again...")
+
+
+
+
+
+
+
+
+"""Measuring Tape Class"""
+class MeasuringTape(Tool):
+    def __init__(self, name: str, material: str, weight: float, length: float):
+        super().__init__(name, material, weight)
+        self.length = length
+        self.current_length = 0  # Default is the tape is retracted
+
+    def use(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to use. Please repair it.")
+            return
+
+        while True:
+            clear_screen()
+            print(f"Using the {self.name} made of {self.material}, weighing {self.weight}kg, with a {self.length}m length.")
+            print("\nMeasuring Tape Use Menu")
+            print("========================")
+            print("1. Measure Wood Length")
+            print("2. Mark Intervals")
+            print("3. Back")
+
+            choice = input("\nEnter your choice (1-3): ")
+
+            if choice == "1":
+                self.measure_wood_length()
+            elif choice == "2":
+                self.mark_intervals()
+            elif choice == "3":
+                break
+            else:
+                print("Invalid choice. Please select a number from 1 to 3.")
+                input("\nPress Enter to return to the menu...")
+
+    def measure_wood_length(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to measure. Please repair it.")
+            return
+
+        wood_length = random.uniform(1, self.length)  # Random length between 1m and the full tape length
+        print(f"Measuring wood... The length is {wood_length:.2f} meters.")
+        input("Press Enter to continue...")
+        self.degrade()
+
+    def mark_intervals(self) -> None:
+        if not self.check_durability():
+            print("The measuring tape is too damaged to mark intervals. Please repair it.")
+            return
+
+        while True:
+            try:
+                interval_input = input("Enter the interval length to mark (in meters): ")
+                interval = float(interval_input)
+
+                if 0 < interval <= self.length:
+                    print(f"Marking intervals every {interval} meters.")
+                    for i in range(1, int(self.length // interval) + 1):
+                        print(f"Mark {i}: {i * interval} meters")
+                    print("Intervals marked.")
+                    break
+                else:
+                    print("Invalid interval length. Please enter a value within the tape's length.")
+            except ValueError:
+                print("Invalid input. Please enter a number.")
+
+        input("Press Enter to continue...")
+        self.degrade()
+
+    def repair(self) -> None:
+        self.durability = 100
+        print(f"Repaired the {self.name} measuring tape. Durability is now full.")
+
+"""Material Class"""
+class Material:
+    def __init__(self, name: str, material_type: str, integrity: int = 100):
+        self.name = name
+        self.material_type = material_type
+        self.integrity = integrity
+
+    def degrade(self, amount: int = 5):
+        self.integrity -= amount
+        if self.integrity < 0:
+            self.integrity = 0
+
+    def check_integrity(self) -> bool:
+        return self.integrity > 0
+
+    def interact(self, tool: Tool) -> None:
+        if self.material_type in ['Wood', 'Metal', 'Plastic']:
+            print(f"Using {tool.name} on {self.name} ({self.material_type})")
+            tool.use()
+            self.degrade()
+        else:
+            print("This tool is not suitable for this material.")
+
+
+"""Material Handling Menu"""
+def material_menu(material: Material, tools: dict):
+    while True:
+        clear_screen()
+        print(f"Material: {material.name} (Integrity: {material.integrity}%)")
+        print("1. Interact with Tool")
+        print("2. Check Integrity")
+        print("3. Back")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            print("Select a tool to use:")
+            for key, tool in tools.items():
+                print(f"{key}. {tool.name} (Durability: {tool.durability}%)")
+            tool_choice = input("Choose a tool: ")
+
+            if tool_choice in tools:
+                material.interact(tools[tool_choice])
+            else:
+                print("Invalid tool choice.")
+            input("Press Enter to continue...")
+
+        elif choice == "2":
+            print(f"Material Integrity: {material.integrity}%")
+            input("Press Enter to continue...")
+
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice. Please enter a number from 1 to 3.")
+            input("Press Enter to try again...")
+
+
+"""Example Materials"""
+wood = Material("Wood Plank", "Wood")
+metal = Material("Metal Sheet", "Metal")
+plastic = Material("Plastic Panel", "Plastic")
+
+materials = {
+    "1": wood,
+    "2": metal,
+    "3": plastic
+}
+
+"""Tool Menu Function"""
+def tool_menu(tool: Tool):
+    while True:
+        clear_screen()
+        print(f"Tool: {tool.name}")
+        print(f"Durability: {tool.durability}%")
+        print("1. Use Tool")
+        print("2. Repair Tool")
+        print("3. Back")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == "1":
+            tool.use()
+        elif choice == "2":
+            tool.repair()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid option. Please select a number from 1 to 3.")
+            input("Press Enter to try again...")
+
+
+
+"""Updated Main Menu to Include Material Interaction"""
+if __name__ == "__main__":
+    hammer = Hammer("Hammer", "Iron", 2.5, "Flat", "Curved", 16)
+    drill = Drill("Drill", "Steel", 1.5, 500.0, True, 1500)
+    saw = Saw("Saw", "Steel", 3.0, "Wood", 18, True)  
+    screwdriver = Screwdriver("Screwdriver", "Steel", 0.3, "Phillips", 6, False)
+    measuring_tape = MeasuringTape("Measuring Tape", "Plastic", 0.5, 25)  
+
+    tools = {
+        "1": hammer,
+        "2": drill,
+        "3": saw,
+        "4": screwdriver, 
+        "5": measuring_tape,
+    }
+
+    while True:
+        clear_screen()
+        print("Main Menu")
+        print("========")
+        print("1. Manage Tools")
+        print("2. Interact with Materials")
+        print("0. Exit")
+
+        main_choice = input("Enter your choice: ")
+
+        if main_choice == "1":
+            print("Toolbox")
+            print("======")
+            for key, tool in tools.items():
+                print(f"{key}. {tool.name} (Durability: {tool.durability}%)")
+            tool_choice = input("Select a tool to manage: ")
+
+            if tool_choice in tools:
+                tool_menu(tools[tool_choice])
+
+        elif main_choice == "2":
+            print("Materials")
+            print("========")
+            for key, material in materials.items():
+                print(f"{key}. {material.name} (Integrity: {material.integrity}%)")
+            mat_choice = input("Select a material to interact with: ")
+
+            if mat_choice in materials:
+                material_menu(materials[mat_choice], tools)
+
+        elif main_choice == "0":
             print("Goodbye!")
             break
         else:
