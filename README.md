@@ -32,6 +32,10 @@ Toolmaster serves as a comprehensive workshop simulator where users can explore 
     - Hammer: Strike and remove nails, with each strike randomly affecting nail depth.
     - Drill: Drill holes at variable speeds, change drill bits for different materials.
     - Saw: Cut through wood using different blade types, each suited for specific materials.
+    - Measuring Tape: Measure wood lengths and mark intervals at user-defined distances.
+    - Wrench: Tighten or loosen bolts with adjustable sizes; includes torque control.
+    - Screwdriver: Tighten or loosen screws, change tip types (Flathead, Phillips, Torx), and toggle magnetization.
+
 
 📦 Key OOP Concepts Implemented:
 
