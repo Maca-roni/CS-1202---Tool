@@ -46,7 +46,7 @@ Toolmaster serves as a comprehensive workshop simulator where users can explore 
 
 Class Diagram:
 
-![UML!](https://cdn.discordapp.com/attachments/1331224481288687723/1371037566488416337/UML.png?ex=6821adbc&is=68205c3c&hm=fecc5b351da9f52d53b18470061570f3ffe6a060e8ce1b29c68f71e8468032b3&)
+![UML](https://github.com/Maca-roni/CS-1202---Tool/blob/68fbff446cc0608be836707d0a485e1129007449/UML.png)
 
 ▶️ How to Get Started:
 
