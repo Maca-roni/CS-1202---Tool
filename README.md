@@ -46,6 +46,7 @@ Toolmaster serves as a comprehensive workshop simulator where users can explore 
 
 Class Diagram:
 
+    UML.png
 
 ▶️ How to Get Started:
 
